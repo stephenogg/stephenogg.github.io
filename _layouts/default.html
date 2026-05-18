@@ -28,7 +28,7 @@
 /\__/ / |_  __/ |_) | | | |  __/ | | | |__| | (_| | (_| |
 \____/ \__\___| .__/|_| |_|\___|_| |_|\____/ \__, |\__, |
               | |                             __/ |  _/ |
-              |_|                            |___/| |__/ 
+              |_|                            |___/  |__/ 
 
 </pre>
     </a>
@@ -76,8 +76,11 @@
         {{ content }}
 	 <!-- 📟 TERMINAL CURSOR LINE -->
          <div class="terminal-input-line">
-           <span class="terminal-user">stephenogg@github.io:~$</span> <span class="blinking-cursor">█</span>
+           <span class="terminal-user">stephenogg@github.io:~$</span>
+	   <input type="text" id="hidden-console-input" autocomplete="off" placeholder="type 'help'..." />
+	   <span class="blinking-cursor">█</span>
          </div>
+	 <div id="console-alert-box" class="console-alert-hidden"></div>
       </section>
     </div>
 
@@ -96,11 +99,33 @@
 
       /* Terminal Input Line Styles */
       .terminal-input-line {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 1px dashed #222;
+	display: flex;
+	align-items: center;
+        margin-top: 50px;
+        padding-top: 15px;
+        border-top: 1px dashed #252525;
         font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace;
         font-size: 0.95em;
+      }
+      #hidden-console-input {
+	background: transparent;
+	border: none;
+	color: #60ff60;
+	font-family: Monaco, monospace;
+	outline: none;
+	width: 220px;
+	font-size: 1em;
+	padding-left: 7px;
+      }
+      .console-alert-hidden { display: none; }
+      .console-alert-visible {
+	margin-top: 12px;
+	padding: 12px;
+	background: #0c0c0c;
+	border-left: 3px solid #60ff60;
+	font-family: Monaco, monospace;
+	font-size: 0.9em;
+	line-height: 1.4;
       }
 
       .terminal-user {
@@ -245,6 +270,51 @@
     }
   });
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const consoleInput = document.getElementById("hidden-console-input");
+    const alertBox = document.getElementById("console-alert-box");
+
+    if (consoleInput && alertBox) {
+      consoleInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          const command = consoleInput.value.toLowerCase().trim();
+          consoleInput.value = ""; // Clear input line
+
+          alertBox.className = "console-alert-visible";
+          alertBox.style.color = "#ffb060"; // Default warning amber
+
+          if (command === "help") {
+            alertBox.innerHTML = "[SYSTEM COMMANDS]:<br>• 'matrix' - Initiate matrix layout override<br>• 'sudo' - Request system administrator credentials<br>• 'clear' - Reset console graphic screen buffers";
+          } else if (command === "matrix") {
+            alertBox.innerHTML = "[SYSTEM EXECUTE]: Initiating green digital cascade sequence...";
+            document.body.style.backgroundImage = "none";
+            document.body.style.backgroundColor = "#000000";
+            document.querySelectorAll("*").forEach(el => {
+              el.style.color = "#00ff00";
+              el.style.borderColor = "#00ff00";
+            });
+          } else if (command === "sudo") {
+            alertBox.innerHTML = "[ACCESS_DENIED]: User account 'guest' lacks sudo privileges. This deployment violation breach has been logged.";
+            alertBox.style.color = "#ff6060"; // Error crimson
+          } else if (command === "clear") {
+            alertBox.className = "console-alert-hidden";
+            alertBox.innerHTML = "";
+          } else {
+            alertBox.innerHTML = `[SHELL_ERROR]: Executable string "${escapeHtml(command)}" not recognized.`;
+            alertBox.style.color = "#ff6060";
+          }
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  });
+</script>
+
 
   </body>
 </html>

@@ -9,6 +9,9 @@
   </head>
 
   <body>
+     <!-- ☔ FULLSCREEN RAIN ENGINE SURFACE -->
+<canvas id="matrix-rain-canvas"></canvas>
+
 
     <header>
 	    <!-- <div class="container"> -->
@@ -86,6 +89,16 @@
 
     <!-- 🎨 CENTRALIZED THEME STYLES -->
     <style>
+      #matrix-rain-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Pushes matrix stream behind code content layouts */
+  display: none; /* Stays dormant until command trigger matches */
+}
+
       .terminal-nav { margin: 20px 0 10px 0; font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace; font-size: 1.1em; }
       .nav-label { color: #ffb060; margin-right: 5px; font-weight: bold; }
       .nav-item { color: #60ff60 !important; text-decoration: none; padding: 0 2px; }
@@ -310,13 +323,58 @@ pre.highlight {
           if (command === "help") {
             alertBox.innerHTML = "[SYSTEM COMMANDS]:<br>• 'matrix' - Initiate matrix layout override<br>• 'sudo' - Request system administrator credentials<br>• 'clear' - Reset console graphic screen buffers";
           } else if (command === "matrix") {
-            alertBox.innerHTML = "[SYSTEM EXECUTE]: Initiating green digital cascade sequence...";
-            document.body.style.backgroundImage = "none";
-            document.body.style.backgroundColor = "#000000";
-            document.querySelectorAll("*").forEach(el => {
-              el.style.color = "#00ff00";
-              el.style.borderColor = "#00ff00";
-            });
+		  alertBox.innerHTML = "[SYSTEM EXECUTE]: Initializing green digital cascade sequence. Backing up terminal interface arrays...";
+                      // 1. Reveal vector drawing surface and switch page layout background properties
+          const canvas = document.getElementById("matrix-rain-canvas");
+          canvas.style.display = "block";
+          document.body.style.backgroundColor = "transparent";
+          document.getElementById("main_content").style.background = "rgba(0,0,0,0.85)";
+          document.getElementById("main_content").style.padding = "20px";
+          document.getElementById("main_content").style.borderRadius = "5px";
+
+          // 2. Map global green color rules to core text items
+          document.querySelectorAll("*").forEach(el => {
+            el.style.color = "#00ff00";
+            el.style.borderColor = "#00ff00";
+          });
+
+          // 3. Fire up the Canvas Matrix Engine Loop
+          const ctx = canvas.getContext("2d");
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+
+          const katakana = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890ABCDEF";
+          const alphabet = katakana.split("");
+          const fontSize = 16;
+          const columns = canvas.width / fontSize;
+          const rainDrops = Array(Math.floor(columns)).fill(1);
+
+          const drawMatrix = () => {
+            // Drop translucent black canvas box to generate trail fade
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#0F0"; // Neon Matrix Green
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < rainDrops.length; i++) {
+              const text = alphabet[Math.floor(Math.random() * alphabet.length)];
+              ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+              if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                rainDrops[i] = 0;
+              }
+              rainDrops[i]++;
+            }
+          };
+
+          // Re-index layout boundaries cleanly when browser view changes sizes
+          window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          });
+
+          setInterval(drawMatrix, 30);
           } else if (command === "sudo") {
             alertBox.innerHTML = "[ACCESS_DENIED]: User account 'guest' lacks sudo privileges. This deployment violation breach has been logged.";
             alertBox.style.color = "#ff6060"; // Error crimson

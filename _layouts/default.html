@@ -11,11 +11,24 @@
   <body>
 
     <header>
-      <div class="container">
-        <a id="a-title" href="{{ '/' | relative_url }}">
-          <h1>{{ site.title | default: site.github.repository_name }}</h1>
-        </a>
-        <h2>{{ site.description | default: site.github.project_tagline }}</h2>
+	    <!-- <div class="container"> -->
+	    <!-- <a id="a-title" href="{{ '/' | relative_url }}"> -->
+	    <!-- <h1>{{ site.title | default: site.github.repository_name }}</h1> -->
+	    <!-- </a> -->
+	    <!-- <h2>{{ site.description | default: site.github.project_tagline }}</h2> -->
+
+	      <div class="container">
+    <!-- 👁️ ASCII ART TERMINAL LOGO -->
+    <a id="a-title" href="{{ '/' | relative_url }}" class="ascii-logo-link">
+<pre class="ascii-art">
+    ____ __               __                      ____                
+  / __// /_ ___  ___  / /  ___ ___  ___  ___ _  / __ \ ___ _ ___ _
+ _\ \ / __// -_)/ _ \/ _ \/ -_)|_ / / _ \/ _ `/ / /_/ // _ `// _ `/
+/___/ \__/ \__// .__/_//_/\___//__/ /_//_/\_, /  \____/ \_, / \_, / 
+              /_/                        /___/         /___//___/  
+
+</pre>
+    </a>
 
         <!-- 🌐 GLOBAL TERMINAL NAVIGATION MENU -->
         <nav class="terminal-nav">
@@ -157,6 +170,25 @@
 .res-date { color: #666; font-size: 0.85em; margin-right: 8px; }
 .res-link { color: #60ff60 !important; text-decoration: none; }
 .res-link:hover { text-decoration: underline; background: #222; }
+
+.ascii-logo-link { text-decoration: none !important; display: block; }
+.ascii-art {
+  color: #60ff60;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 10px 0 20px 0;
+  font-family: Monaco, "Courier New", Courier, monospace;
+  font-size: 1.1vw; /* Scales automatically based on the user's screen width */
+  line-height: 1.1;
+  white-space: pre;
+  overflow-x: auto;
+}
+/* Mobile Layout Readjustment Fallback */
+@media (max-width: 768px) {
+  .ascii-art { font-size: 7px; line-height: 1.2; }
+}
+
 
     </style>
 <script>

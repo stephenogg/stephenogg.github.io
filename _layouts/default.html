@@ -39,6 +39,19 @@
             {% endif %}
           {% endfor %}
          </nav>
+	 <!-- 🔍 TERMINAL INTERACTIVE SEARCH BAR -->
+<div class="terminal-search-container">
+  <div class="search-command-line">
+    <span class="search-prompt">stephenogg@github.io:~$</span>
+    <span class="search-command">grep -i</span>
+    <input type="text" id="terminal-search-input" placeholder='"keyword"...' autocomplete="off">
+  </div>
+  <div id="search-results-dropdown" class="search-results-hidden">
+    <div class="results-header">--- SEARCH_RESULTS_BIN ---</div>
+    <ul id="search-results-list"></ul>
+  </div>
+</div>
+
       </div>
     </header>
 
@@ -97,7 +110,106 @@
          visibility: hidden;
        }
      }
+
+ /* Container Formatting */
+.terminal-search-container {
+  margin: 15px 0 25px 0;
+  font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace;
+}
+.search-command-line {
+  display: flex;
+  align-items: center;
+  background: #111;
+  padding: 6px 10px;
+  border: 1px dashed #333;
+}
+.search-prompt { color: #60ff60; margin-right: 8px; }
+.search-command { color: #ffb060; margin-right: 8px; font-weight: bold; }
+
+/* Clean Input Overrides */
+#terminal-search-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 1em;
+  outline: none;
+  width: 100%;
+}
+#terminal-search-input::placeholder { color: #444; }
+
+/* Dynamic Dropdown Output Terminal */
+.search-results-hidden { display: none; }
+.search-results-visible {
+  background: #0d0d0d;
+  border-left: 2px solid #60ff60;
+  border-right: 2px solid #60ff60;
+  border-bottom: 2px solid #60ff60;
+  padding: 10px;
+}
+.results-header { color: #ff6060; font-size: 0.85em; margin-bottom: 5px; font-weight: bold; }
+#search-results-list { list-style-type: none; padding-left: 0; margin-bottom: 0; }
+.search-result-item, .search-no-match { padding: 4px 0; font-size: 0.9em; }
+.search-no-match { color: #ffb060; }
+
+/* Micro Typing Accents */
+.res-cat { color: #ffb060; font-weight: bold; margin-right: 5px; }
+.res-date { color: #666; font-size: 0.85em; margin-right: 8px; }
+.res-link { color: #60ff60 !important; text-decoration: none; }
+.res-link:hover { text-decoration: underline; background: #222; }
+
     </style>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("terminal-search-input");
+    const resultsDropdown = document.getElementById("search-results-dropdown");
+    const resultsList = document.getElementById("search-results-list");
+    let searchIndex = [];
+
+    // Asynchronously fetch the dynamically generated search index 
+    fetch("{{ '/search.json' | relative_url }}")
+      .then(response => response.json())
+      .then(data => { searchIndex = data; })
+      .catch(err => console.error("Could not load local search index:", err));
+
+    searchInput.addEventListener("input", function () {
+      const query = searchInput.value.toLowerCase().trim();
+      resultsList.innerHTML = "";
+
+      if (query.length < 2) {
+        resultsDropdown.className = "search-results-hidden";
+        return;
+      }
+
+      // Filter local dictionary mapping rules
+      const matches = searchIndex.filter(item => 
+        item.title.toLowerCase().includes(query) || 
+        item.category.toLowerCase().includes(query)
+      );
+
+      if (matches.length > 0) {
+        resultsDropdown.className = "search-results-visible";
+        matches.forEach(item => {
+          const li = document.createElement("li");
+          li.className = "search-result-item";
+          li.innerHTML = `
+            <span class="res-cat">[${item.category}]</span> 
+            <span class="res-date">(${item.date})</span>
+            <a href="${item.url}" class="res-link">${item.title}</a>
+          `;
+          resultsList.appendChild(li);
+        });
+      } else {
+        resultsDropdown.className = "search-results-visible";
+        resultsList.innerHTML = `<li class="search-no-match">[SYSTEM] 0 records match your query "${escapeHtml(query)}"</li>`;
+      }
+    });
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+  });
+</script>
 
   </body>
 </html>

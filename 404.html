@@ -1,25 +1,89 @@
 ---
+layout: default
+title: "404 - System Failure"
 permalink: /404.html
-layout: page
 ---
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
+<div class="error-container">
+  <div class="error-header">
+    <h2>*** CRITICAL SYSTEM ERROR ***</h2>
+    <p class="error-code">STATUS_CODE: 0x00000194 (404_NOT_FOUND)</p>
+  </div>
+
+  <div class="error-body">
+    <p class="error-text">> A fatal exception 404 has occurred at your request location.</p>
+    <p class="error-text">> The requested resource or memory address could not be resolved.</p>
+    
+    <div class="stack-trace">
+      <pre>
+STACK TRACE MAP:
+---------------------------
+[0x00401000] REQUEST_URI_FAIL
+[0x004012A0] SITE_MAP_SCAN_NULL
+[0x00401F3E] REDIRECT_TO_SAFETY
+---------------------------</pre>
+    </div>
+
+    <p class="error-action">Suggestions:</p>
+    <ul class="error-actions-list">
+      <li>Check the command syntax (URL spelling) for typos.</li>
+      <li>Use the navigation terminal above to return to a safe state.</li>
+      <li>Initialize primary protocol: <a href="{{ '/' | relative_url }}" class="error-rescue-link">EXECUTE_HOME_RECOVERY_BIN</a></li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .error-container {
+    border: 2px solid #ff6060;
+    background: #100505;
+    padding: 20px;
+    margin: 20px 0;
+    font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace;
   }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
+  .error-header h2 {
+    color: #ff6060 !important;
+    margin-top: 0;
+  }
+  .error-code {
+    background: #ff6060;
+    color: #000;
+    display: inline-block;
+    padding: 2px 6px;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+  .error-text {
+    color: #ffb060;
+  }
+  .stack-trace pre {
+    background: #1a0a0a;
+    border: 1px dashed #ff6060;
+    color: #ff6060;
+    padding: 10px;
+    font-size: 0.85em;
+  }
+  .error-action {
+    color: #fff;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  .error-actions-list {
+    list-style-type: square;
+    padding-left: 20px;
+  }
+  .error-actions-list li {
+    color: #ccc;
+    margin-bottom: 5px;
+  }
+  .error-rescue-link {
+    color: #60ff60 !important;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  .error-rescue-link:hover {
+    background: #60ff60;
+    color: #000 !important;
   }
 </style>
 
-<div class="container">
-  <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
-</div>

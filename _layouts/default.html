@@ -20,13 +20,25 @@
         <!-- 🌐 GLOBAL TERMINAL NAVIGATION MENU -->
         <nav class="terminal-nav">
           <span class="nav-label">NAVIGATION:</span>
-          [<a class="nav-item" href="{{ '/' | relative_url }}">Home</a>]
+  
+          <!-- Home Link Condition -->
+          {% if page.url == "/" or page.url == "/index.html" %}
+            [<a class="nav-item active-nav" href="{{ '/' | relative_url }}">Home</a>]
+          {% else %}
+            [<a class="nav-item" href="{{ '/' | relative_url }}">Home</a>]
+          {% endif %}
+
+          <!-- Other Pages Loop Condition -->
           {% for p in site.pages %}
             {% if p.title and p.url != '/' and p.url != '/404.html' %}
-              [<a class="nav-item" href="{{ p.url | relative_url }}">{{ p.title }}</a>]
+              {% if page.url == p.url %}
+                [<a class="nav-item active-nav" href="{{ p.url | relative_url }}">{{ p.title }}</a>]
+              {% else %}
+                [<a class="nav-item" href="{{ p.url | relative_url }}">{{ p.title }}</a>]
+              {% endif %}
             {% endif %}
           {% endfor %}
-        </nav>
+         </nav>
       </div>
     </header>
 
@@ -46,7 +58,13 @@
       .nav-label { color: #ffb060; margin-right: 5px; font-weight: bold; }
       .nav-item { color: #60ff60 !important; text-decoration: none; padding: 0 2px; }
       .nav-item:hover { background: #60ff60; color: #151515 !important; }
-      .nav-item.active { color: #fff !important; font-weight: bold; }
+      .nav-item.active-nav {
+        color: #ffffff !important;
+        background-color: #222222;
+        font-weight: bold;
+        border-bottom: 1px solid #ffffff;
+      }
+
       /* Terminal Input Line Styles */
       .terminal-input-line {
         margin-top: 40px;

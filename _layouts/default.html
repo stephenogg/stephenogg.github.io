@@ -95,9 +95,26 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1; /* Pushes matrix stream behind code content layouts */
+  z-index: -2 !important;  /* Pushes it to the absolute bottom layer */
+  pointer-events: none;  /* Stops it from blocking mouse clicks on links */
   display: none; /* Stays dormant until command trigger matches */
 }
+
+      /* --- MATRIX TRANSPARENCY OVERRIDES --- */
+
+/* 1. Make the main body container completely see-through */
+body {
+  background-color: transparent !important;
+}
+
+/* 2. Target the main hacker panels and make them slightly transparent */
+.container, #main_content, header {
+  background: rgba(21, 21, 21, 0.85) !important; /* Rich terminal black with 85% opacity */
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.1); /* Adds a very faint green terminal glow */
+}
+
 
       .terminal-nav { margin: 20px 0 10px 0; font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace; font-size: 1.1em; }
       .nav-label { color: #ffb060; margin-right: 5px; font-weight: bold; }

@@ -122,6 +122,20 @@ end
 Long, single-line code blocks should not wrap. They should horizontally scroll if they are too long. This line should be long enough to demonstrate this.
 ```
 
+## My Blog Posts
+{% if site.posts.size > 0 %}
+  <ul>
+    {% for post in site.posts %}
+      <li>
+        <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span> — 
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No posts found yet!</p>
+{% endif %}
+
 ```
 The final element.
 ```

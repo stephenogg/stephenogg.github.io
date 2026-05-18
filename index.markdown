@@ -5,15 +5,6 @@
 layout: default
 title: Home
 ---
-<nav class="terminal-nav">
-  <span class="nav-label">NAVIGATION:</span>
-  [<a class="nav-item active" href="{{ '/' | relative_url }}">Home</a>]
-  {% for p in site.pages %}
-    {% if p.title and p.url != '/' %}
-      [<a class="nav-item" href="{{ p.url | relative_url }}">{{ p.title }}</a>]
-    {% endif %}
-  {% endfor %}
-</nav>
 
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
 
@@ -163,8 +154,4 @@ The final element.
   .terminal-link:hover { color: #fff !important; background: #222; }
   .terminal-error { color: #ff6060; font-family: monospace; }
   .terminal-nav { margin: 20px 0; font-family: monospace; font-size: 1.1em; }
-  .nav-label { color: #ffb060; margin-right: 5px; }
-  .nav-item { color: #60ff60 !important; text-decoration: none; padding: 0 2px; }
-  .nav-item:hover { background: #60ff60; color: #151515 !important; }
-  .nav-item.active { color: #fff !important; font-weight: bold; }
 </style>

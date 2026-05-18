@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    {% seo %}
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <a id="a-title" href="{{ '/' | relative_url }}">
+          <h1>{{ site.title | default: site.github.repository_name }}</h1>
+        </a>
+        <h2>{{ site.description | default: site.github.project_tagline }}</h2>
+
+        <!-- 🌐 GLOBAL TERMINAL NAVIGATION MENU -->
+        <nav class="terminal-nav">
+          <span class="nav-label">NAVIGATION:</span>
+          [<a class="nav-item" href="{{ '/' | relative_url }}">Home</a>]
+          {% for p in site.pages %}
+            {% if p.title and p.url != '/' and p.url != '/404.html' %}
+              [<a class="nav-item" href="{{ p.url | relative_url }}">{{ p.title }}</a>]
+            {% endif %}
+          {% endfor %}
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        {{ content }}
+      </section>
+    </div>
+
+    <!-- 🎨 CENTRALIZED THEME STYLES -->
+    <style>
+      .terminal-nav { margin: 20px 0 10px 0; font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace; font-size: 1.1em; }
+      .nav-label { color: #ffb060; margin-right: 5px; font-weight: bold; }
+      .nav-item { color: #60ff60 !important; text-decoration: none; padding: 0 2px; }
+      .nav-item:hover { background: #60ff60; color: #151515 !important; }
+    </style>
+
+  </body>
+</html>
+

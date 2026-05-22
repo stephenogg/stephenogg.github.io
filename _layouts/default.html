@@ -38,7 +38,7 @@
 
         <!-- 🌐 GLOBAL TERMINAL NAVIGATION MENU -->
         <nav class="terminal-nav">
-          <span class="nav-label">NAVIGATION:</span>
+          <span class="nav-label">:</span>
   
           <!-- Home Link Condition -->
           {% if page.url == "/" or page.url == "/index.html" %}
@@ -103,18 +103,26 @@
       /* --- MATRIX TRANSPARENCY OVERRIDES --- */
 
 /* 1. Make the main body container completely see-through */
-body {
-  background-color: transparent !important;
+html, body {
+  background-color: #151515 !important;
+}
+header, 
+.container {
+  background: rgba(0, 0, 0, 0) !important;
+  background-image: none !important;
 }
 
 /* 2. Target the main hacker panels and make them slightly transparent */
-.container, #main_content, header {
-  background: rgba(21, 21, 21, 0.85) !important; /* Rich terminal black with 85% opacity */
+header .container,
+#main_content {
+  background: rgba(0, 0, 0, 0) !important; /* Rich terminal black with 85% opacity */
   padding: 20px;
   border-radius: 4px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.1); /* Adds a very faint green terminal glow */
+  position: relative;
+  z-index: 2 !important;
+  text-shadow: 0 0 5px #000000, 0 0 10px #000000;
+  box-shadow: 0 0 4px rgba(0, 255, 0, 0.9); /* Adds a very faint green terminal glow */
 }
-
 
       .terminal-nav { margin: 20px 0 10px 0; font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, monospace; font-size: 1.1em; }
       .nav-label { color: #ffb060; margin-right: 5px; font-weight: bold; }
@@ -269,6 +277,37 @@ pre.highlight {
 .highlight .o  { color: #ffffff; }                   /* Operators (=, ==, +) */
 .highlight .nb { color: #60c0ff; }                   /* Built-in methods (print) */
 
+#matrix-rain-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1 !important;
+  display: none;
+  pointer-events: none;
+}
+
+body.matrix-active {
+  background: #000000 !important;
+}
+
+body.matrix-active header,
+body.matrix-active .container,
+body.matrix-active #main_content,
+body.matrix-active #search-results-dropdown {
+  position: relative;
+  z-index: 2 !important;
+  background: rgba(10, 10, 10, 0.70) !important;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid #00ff00;
+}
+
+body.matrix-active * {
+  color: #00ff00 !important;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
 
     </style>
 <script>
@@ -341,26 +380,17 @@ pre.highlight {
             alertBox.innerHTML = "[SYSTEM COMMANDS]:<br>• 'matrix' - Initiate matrix layout override<br>• 'sudo' - Request system administrator credentials<br>• 'clear' - Reset console graphic screen buffers";
           } else if (command === "matrix") {
 		  alertBox.innerHTML = "[SYSTEM EXECUTE]: Initializing green digital cascade sequence. Backing up terminal interface arrays...";
+          document.body.classList.add("matrix-active");
                       // 1. Reveal vector drawing surface and switch page layout background properties
           const canvas = document.getElementById("matrix-rain-canvas");
           canvas.style.display = "block";
-          document.body.style.backgroundColor = "transparent";
-          document.getElementById("main_content").style.background = "rgba(0,0,0,0.85)";
-          document.getElementById("main_content").style.padding = "20px";
-          document.getElementById("main_content").style.borderRadius = "5px";
-
-          // 2. Map global green color rules to core text items
-          document.querySelectorAll("*").forEach(el => {
-            el.style.color = "#00ff00";
-            el.style.borderColor = "#00ff00";
-          });
 
           // 3. Fire up the Canvas Matrix Engine Loop
           const ctx = canvas.getContext("2d");
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
 
-          const katakana = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890ABCDEF";
+          const katakana = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
           const alphabet = katakana.split("");
           const fontSize = 16;
           const columns = canvas.width / fontSize;

@@ -18,12 +18,14 @@ Because Home Assistant OS (HAOS) runs inside secure containers, you need AppDaem
 2. Search for **AppDaemon**, click **Install**, and toggle **Show in sidebar** on.
 3. Select the **Configuration** tab at the top of the AppDaemon add-on page.
 4. Locate the `system_packages` and `python_packages` blocks, then add `folium` and `requests` exactly as shown below:
+
    ```yaml
    system_packages: []
    python_packages:
      - folium
      - requests
    ```
+   
 5. Click **Save**, return to the **Info** tab, and click **Start**.
 
 ---
